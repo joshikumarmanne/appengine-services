@@ -1,0 +1,27 @@
+service: coupons
+runtime: python27
+api_version: 1
+threadsafe: true
+
+automatic_scaling:
+  min_idle_instances: 1
+
+handlers:
+# Endpoints handler: Must be /_ah/spi. Apps send requests to /_ah/api, but these are handled at /_ah/spi!!
+- url: /_ah/spi/.*
+  script: main.APPLICATION
+
+- url: /*.*
+  static_files: static_pages/coupons.html
+  upload: static_pages/coupons.html
+
+builtins:
+- deferred: on
+
+libraries:
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0
+- name: ssl
+  version: latest
